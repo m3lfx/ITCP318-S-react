@@ -1,6 +1,6 @@
 const Product = require('../models/product')
 const Order = require('../models/order');
-// const APIFeatures = require('../utils/apiFeatures');
+
 const cloudinary = require('cloudinary')
 
 exports.newProduct = async (req, res, next) => {
@@ -49,6 +49,20 @@ console.log(req.files)
 		success: true,
 		product
 	})
+}
+
+exports.getSingleProduct = async (req, res, next) => {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+        return res.status(404).json({
+            success: false,
+            message: 'Product not found'
+        })
+    }
+    return res.status(200).json({
+        success: true,
+        product
+    })
 }
 
 
