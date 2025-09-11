@@ -9,8 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 
 const ProductDetails = () => {
-   
-    
     const [product, setProduct] = useState({})
     const [error, setError] = useState('')
     const [quantity, setQuantity] = useState(1)
@@ -53,7 +51,7 @@ const ProductDetails = () => {
 
 
 
-    
+
     function setUserRatings() {
         const stars = document.querySelectorAll('.star');
         stars.forEach((star, index) => {
@@ -115,7 +113,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
         productDetails(id)
-      }, [id, ]);
+    }, [id,]);
     // localStorage.setItem('cartItems', JSON.stringify(cartItems))
     return (
         <>
@@ -165,7 +163,7 @@ const ProductDetails = () => {
                     <p>{product.description}</p>
                     <hr />
                     <p id="product_seller mb-3">Sold by: <strong>{product.seller}</strong></p>
-                    <div className="alert alert-danger mt-5" type='alert'>Login to post your review.</div> 
+                    <div className="alert alert-danger mt-5" type='alert'>Login to post your review.</div>
                     <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal"  >
                         Submit Your Review
                     </button>
