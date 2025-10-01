@@ -6,13 +6,14 @@ import MetaData from '../Layout/MetaData';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { authenticate } from '../../Utils/helpers';
+import { authenticate, getUser } from '../../Utils/helpers';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false)
     let navigate = useNavigate()
+    let location = useLocation()
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -37,6 +38,14 @@ const Login = () => {
             })
         }
     }
+
+    const redirect = location.search ? new URLSearchParams(location.search).get('redirect') : ''
+console.log(redirect)
+    useEffect(() => {
+        if (getUser()  ) {
+             navigate('/')
+        }
+    }, [])
     return (
         <>
             {loading ? <Loader /> : (
