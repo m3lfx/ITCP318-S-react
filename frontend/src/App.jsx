@@ -12,6 +12,7 @@ import Login from './Components/User/Login';
 import Register from './Components/User/Register';
 import { ToastContainer, } from 'react-toastify';
 import ForgotPassword from './Components/User/ForgotPassword';
+import NewPassword from './Components/User/NewPassword';
 function App() {
 
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register exact="true" />} />
           <Route path="/password/forgot" element={<ForgotPassword />} exact="true" />
+          <Route path="/password/reset/:token" element={<NewPassword />} exact="true" />
         </Routes>
 
       </Router>
