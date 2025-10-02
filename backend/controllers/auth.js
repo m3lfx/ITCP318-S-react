@@ -104,13 +104,14 @@ exports.forgotPassword = async (req, res, next) => {
 }
 
 exports.resetPassword = async (req, res, next) => {
-    console.log(req.params)
+    console.log(req.params.token)
     // Hash URL token
     const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex')
     const user = await User.findOne({
-        resetPasswordToken,
+        // resetPasswordToken,
         resetPasswordExpire: { $gt: Date.now() }
     })
+    console.log(user)
 
     if (!user) {
         return res.status(400).json({ message: 'Password reset token is invalid or has been expired' })
@@ -134,4 +135,14 @@ exports.resetPassword = async (req, res, next) => {
         user
     });
    
+}
+
+exports.getUserProfile = async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+    console.log(user)
+
+    return res.status(200).json({
+        success: true,
+        user
+    })
 }

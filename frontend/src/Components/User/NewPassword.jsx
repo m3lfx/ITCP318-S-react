@@ -11,12 +11,13 @@ const NewPassword = () => {
 
     let navigate = useNavigate();
     const [error, setError] = useState('')
-    const [success, setSuccess] = useState('')
+    const [success, setSuccess] = useState(false)
 
     let { token } = useParams();
     console.log(token)
 
     const resetPassword = async (token, passwords) => {
+        console.log(passwords)
         try {
             const config = {
                 headers: {
@@ -27,6 +28,7 @@ const NewPassword = () => {
             
             setSuccess(data.success)
         } catch (error) {
+            console.log(error)
             setError(error)
         }
     }
