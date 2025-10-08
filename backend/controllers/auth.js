@@ -159,7 +159,7 @@ exports.updateProfile = async (req, res, next) => {
         let user = await User.findById(req.user.id)
         // console.log(user)
         const image_id = user.avatar.public_id;
-        // const res = await cloudinary.v2.uploader.destroy(image_id);
+        const res = await cloudinary.v2.uploader.destroy(image_id);
         // console.log("Res", res)
         const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
             folder: 'avatars',

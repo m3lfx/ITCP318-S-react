@@ -5,7 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { getToken } from '../../utils/helpers';
+import { getToken } from '../../Utils/helpers';
 
 
 const UpdateProfile = () => {
@@ -23,19 +23,20 @@ const UpdateProfile = () => {
     const getProfile = async () => {
         const config = {
             headers: {
-                // 'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
         }
         try {
             const { data } = await axios.get(`${import.meta.env.VITE_API}/me`, config)
             console.log(data)
-            // setUser(data.user)
+            setUser(data.user)
             setName(data.user.name);
             setEmail(data.user.email);
             setAvatarPreview(data.user.avatar.url)
             setLoading(false)
         } catch (error) {
+            console.log(error)
             toast.error('user not found', {
                 position: 'bottom-right'
             });
@@ -56,7 +57,7 @@ const UpdateProfile = () => {
             toast.success('user updated', {
                 position: 'bottom-right'
             });
-            //  getProfile();
+            getProfile();
             navigate('/me', { replace: true })
 
 
