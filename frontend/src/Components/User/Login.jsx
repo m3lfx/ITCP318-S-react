@@ -32,7 +32,7 @@ const Login = () => {
             authenticate(data, () => navigate("/"))
 
         } catch (error) {
-            
+
             toast.error("invalid user or password", {
                 position: 'bottom-right'
             })
@@ -40,12 +40,19 @@ const Login = () => {
     }
 
     const redirect = location.search ? new URLSearchParams(location.search).get('redirect') : ''
-console.log(redirect)
+    console.log(redirect)
+    // useEffect(() => {
+    //     if (getUser()  ) {
+    //          navigate('/')
+    //     }
+    // }, [])
+
     useEffect(() => {
-        if (getUser()  ) {
-             navigate('/')
+        if (getUser() && redirect === 'shipping') {
+            navigate(`/${redirect}`)
         }
     }, [])
+
     return (
         <>
             {loading ? <Loader /> : (
