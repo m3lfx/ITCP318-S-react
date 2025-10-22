@@ -16,6 +16,7 @@ import NewPassword from './Components/User/NewPassword';
 import Profile from './Components/User/Profile';
 import UpdateProfile from './Components/User/UpdateProfile';
 import UpdatePassword from './Components/User/UpdatePassword';
+import ConfirmOrder from './Components/Cart/ConfirmOrder';
 import axios from 'axios';
 
 import { toast } from 'react-toastify';
