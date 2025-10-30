@@ -29,6 +29,7 @@ import ListOrders from './Components/Order/ListOrders';
 import OrderDetails from './Components/Order/OrderDetails';
 import Dashboard from './Components/Admin/Dashboard';
 import ProductsList from './Components/Admin/ProductsList';
+import NewProduct from './Components/Admin/NewProduct';
 function App() {
 
   const [state, setState] = useState({
@@ -128,7 +129,8 @@ function App() {
           <Route path="/orders/me" element={<ListOrders />} />
           <Route path="/order/:id" element={<OrderDetails />} />
           <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/admin/products" element={<ProductsList />} />
+          <Route path="/admin/products" element={<ProductsList />} />
+          <Route path="/admin/product" element={<NewProduct />} />
         </Routes>
 
       </Router>

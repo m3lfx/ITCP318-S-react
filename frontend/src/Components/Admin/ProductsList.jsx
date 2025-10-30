@@ -85,7 +85,7 @@ const ProductsList = () => {
 
 
 
-    
+
 
     const deleteProductHandler = (id) => {
         deleteProduct(id)
@@ -128,9 +128,9 @@ const ProductsList = () => {
             sortable: false,
             filterable: false,
             renderCell: (params) => (
-                
+
                 <>
-                {console.log(params)}
+                    {console.log(params)}
                     <Link to={`/admin/product/${params.id}`} className="btn btn-primary py-1 px-2">
                         <i className="fa fa-pencil"></i>
                     </Link>
@@ -162,19 +162,19 @@ const ProductsList = () => {
                         <h1 className="my-5">All Products</h1>
 
                         {loading ? <Loader /> : (
-                <div style={{ width: '100%' }}>
-                    <DataGrid
-                        rows={rows}
-                        columns={columns}
+                            <div style={{ width: '100%' }}>
+                                <DataGrid
+                                    rows={rows}
+                                    columns={columns}
 
-                        pageSize={5}
-                        rowsPerPageOptions={[5, 10, 25]}
-                        disableSelectionOnClick
-                        getRowId={(row) => row.id}
-                        showToolbar
-                    />
-                </div>
-            )}
+                                    pageSize={5}
+                                    rowsPerPageOptions={[5, 10, 25]}
+                                    disableSelectionOnClick
+                                    getRowId={(row) => row.id}
+                                    showToolbar
+                                />
+                            </div>
+                        )}
 
                     </>
                 </div>
