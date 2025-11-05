@@ -9,6 +9,7 @@ const {
     updateProduct,
     deleteProduct,
     getProducts,
+    productSales,
     
     } = require('../controllers/product');
 
@@ -22,6 +23,7 @@ router.put('/admin/product/:id', upload.array('images', 10), updateProduct);
 router.delete('/admin/product/:id', deleteProduct);
 
 router.get('/products', getProducts)
+router.get('/admin/product-sales', productSales);
 
 
 module.exports = router

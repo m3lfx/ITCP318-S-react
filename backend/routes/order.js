@@ -7,6 +7,8 @@ const { newOrder,
 	deleteOrder,
 	allOrders,
 	updateOrder,
+	totalOrders,
+	totalSales,
 		
 
 	} = require('../controllers/order')
@@ -18,5 +20,6 @@ router.route('/order/:id').get(isAuthenticatedUser, getSingleOrder);
 router.get('/admin/orders/', isAuthenticatedUser, allOrders);
 // router.route('/admin/order/:id').delete(isAuthenticatedUser, deleteOrder);
 router.route('/admin/order/:id').put(isAuthenticatedUser, updateOrder).delete(isAuthenticatedUser, deleteOrder);
-
+router.get('/admin/total-orders', totalOrders);
+router.get('/admin/total-sales', totalSales);
 module.exports = router;

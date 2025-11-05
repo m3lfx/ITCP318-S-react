@@ -118,3 +118,44 @@ async function updateStock(id, quantity) {
 
     await product.save({ validateBeforeSave: false })
 }
+
+exports.totalOrders = async (req, res, next) => {
+    const totalOrders = await Order.aggregate([
+        {
+            $group: {
+                _id: null,
+                count: { $sum: 1 }
+            }
+        }
+    ])
+    if (!totalOrders) {
+        return res.status(404).json({
+            message: 'error total orders',
+        })
+    }
+    res.status(200).json({
+        success: true,
+        totalOrders
+    })
+
+}
+
+exports.totalSales = async (req, res, next) => {
+    const totalSales = await Order.aggregate([
+        {
+            $group: {
+                _id: null,
+                totalSales: { $sum: "$totalPrice" }
+            }
+        }
+    ])
+    if (!totalSales) {
+        return res.status(404).json({
+            message: 'error total sales',
+        })
+    }
+    res.status(200).json({
+        success: true,
+        totalSales
+    })
+}

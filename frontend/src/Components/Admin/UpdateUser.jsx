@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import MetaData from '../Layout/MetaData'
 import Sidebar from './SideBar'
 
-import { errMsg, successMsg, getToken } from '../../Utils/helpers';
+import { errMsg, successMsg, getToken } from '../../utils/helpers';
 
 import axios from 'axios';
 
