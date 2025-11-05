@@ -159,3 +159,67 @@ exports.totalSales = async (req, res, next) => {
         totalSales
     })
 }
+
+exports.customerSales = async (req, res, next) => {
+    const customerSales = await Order.aggregate([
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'user',
+                foreignField: '_id',
+                as: 'userDetails'
+            },
+        },
+        // {
+        //     $group: {
+        //         _id: "$user",
+        //         total: { $sum: "$totalPrice" },
+        //     }
+        // },
+
+        { $unwind: "$userDetails" },
+        {
+            $group: {
+                _id: "$user",
+                total: { $sum: "$totalPrice" },
+                doc: { "$first": "$$ROOT" },
+
+            }
+        },
+
+        {
+            $replaceRoot: {
+                newRoot: { $mergeObjects: [{ total: '$total' }, '$doc'] },
+            },
+        },
+        // {
+        //     $group: {
+        //         _id: "$userDetails.name",
+        //         total: { $sum: "$totalPrice" }
+        //     }
+        // },
+        {
+            $project: {
+                _id: 0,
+                "userDetails.name": 1,
+                total: 1,
+            }
+        },
+        { $sort: { total: -1 } },
+
+    ])
+    console.log(customerSales)
+    if (!customerSales) {
+        return res.status(404).json({
+            message: 'error customer sales',
+        })
+
+
+    }
+    // return console.log(customerSales)
+    res.status(200).json({
+        success: true,
+        customerSales
+    })
+
+}
