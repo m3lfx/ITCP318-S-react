@@ -17,7 +17,7 @@ const {
 
 router.post('/admin/product/new', isAuthenticatedUser, upload.array('images', 10), newProduct);
 router.get('/product/:id', getSingleProduct)
-router.get('/admin/products', getAdminProducts);
+router.get('/admin/products', isAuthenticatedUser, authorizeRoles('admin'), getAdminProducts);
 
 router.put('/admin/product/:id', upload.array('images', 10), updateProduct);
 router.delete('/admin/product/:id', deleteProduct);

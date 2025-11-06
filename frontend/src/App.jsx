@@ -17,6 +17,7 @@ import Profile from './Components/User/Profile';
 import UpdateProfile from './Components/User/UpdateProfile';
 import UpdatePassword from './Components/User/UpdatePassword';
 import ConfirmOrder from './Components/Cart/ConfirmOrder';
+import ProtectedRoute from './Components/Route/ProtectedRoute';
 import axios from 'axios';
 
 import { toast } from 'react-toastify';
@@ -133,8 +134,8 @@ function App() {
           <Route path="/success" element={<OrderSuccess />} />
           <Route path="/orders/me" element={<ListOrders />} />
           <Route path="/order/:id" element={<OrderDetails />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admin/products" element={<ProductsList />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          {/* <Route path="/admin/products" element={<ProductsList />} /> */}
           <Route path="/admin/product" element={<NewProduct />} />
           <Route
             path="/admin/product/:id"
@@ -147,10 +148,27 @@ function App() {
           <Route
             path="/admin/order/:id"
             element={<ProcessOrder />} />
-             <Route
+          <Route
             path="/admin/users"
             element={<UsersList />} />
-            <Route path="/admin/user/:id" element={<UpdateUser />} />
+          <Route path="/admin/user/:id" element={<UpdateUser />} />
+          <Route
+            path="/admin/products"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <ProductsList />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
 
       </Router>

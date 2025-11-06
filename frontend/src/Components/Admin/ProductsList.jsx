@@ -45,13 +45,13 @@ const ProductsList = () => {
 
         if (error) {
             toast.error(error, {
-                position: toast.POSITION.BOTTOM_RIGHT
+                position: 'bottom-right'
             });
         }
 
         if (deleteError) {
             toast.error(deleteError, {
-                position: toast.POSITION.BOTTOM_RIGHT
+                position: 'bottom-right'
             });
         }
 
