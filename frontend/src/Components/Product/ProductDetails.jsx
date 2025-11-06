@@ -4,6 +4,8 @@ import MetaData from '../Layout/MetaData'
 import { Carousel } from 'react-bootstrap'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getUser, getToken, successMsg, errMsg } from '../../Utils/helpers'
+import ListReviews from '../Review/ListReviews';
 
 
 import axios from 'axios'
@@ -12,11 +14,11 @@ const ProductDetails = ({ addItemToCart, cartItems,}) => {
     const [product, setProduct] = useState({})
     const [error, setError] = useState('')
     const [quantity, setQuantity] = useState(1)
-    // const [user, setUser] = useState(getUser())
+    const [user, setUser] = useState(getUser())
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState('')
-    // const [errorReview, setErrorReview] = useState('');
-    // const [success, setSuccess] = useState('')
+    const [errorReview, setErrorReview] = useState('');
+    const [success, setSuccess] = useState('')
 
 
     let { id } = useParams()
@@ -80,44 +82,63 @@ const ProductDetails = ({ addItemToCart, cartItems,}) => {
         }
     }
 
-    // const newReview = async (reviewData) => {
-    //     try {
-    //         const config = {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${getToken()}`
-    //             }
-    //         }
+    const newReview = async (reviewData) => {
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            }
 
-    //         const { data } = await axios.put(`${import.meta.env.VITE_API}/review`, reviewData, config)
-    //         setSuccess(data.success)
+            const { data } = await axios.put(`${import.meta.env.VITE_API}/review`, reviewData, config)
+            setSuccess(data.success)
 
-    //     } catch (error) {
-    //         setErrorReview(error.response.data.message)
-    //     }
-    // }
+        } catch (error) {
+            setErrorReview(error.response.data.message)
+        }
+    }
 
-    // const reviewHandler = () => {
-    //     const formData = new FormData();
-    //     formData.set('rating', rating);
-    //     formData.set('comment', comment);
-    //     formData.set('productId', id);
-    //     dispatch(newReview(formData))
+    const reviewHandler = () => {
+        const formData = new FormData();
+        formData.set('rating', rating);
+        formData.set('comment', comment);
+        formData.set('productId', id);
+        newReview(formData)
 
-    // }
+    }
 
      const addToCart = async () => {
         await addItemToCart(id, quantity);
     }
 
+    // useEffect(() => {
+    //     productDetails(id)
+    // }, [id,]);
+
     useEffect(() => {
         productDetails(id)
-    }, [id,]);
+        if (error) {
+            errMsg(error)
+            navigate('/')
+            setError('')
+        }
+
+        if (errorReview) {
+            errMsg(errorReview)
+            setErrorReview('')
+        }
+        if (success) {
+            successMsg('Review posted successfully')
+            setSuccess(false)
+
+        }
+    }, [id, error, errorReview, success]);
 
    
     localStorage.setItem('cartItems', JSON.stringify(cartItems))
     return (
-        <>
+          <>
             <MetaData title={product.name} />
             <div className="row d-flex justify-content-around">
                 <div className="col-12 col-lg-5 img-fluid" id="product_image">
@@ -153,7 +174,7 @@ const ProductDetails = ({ addItemToCart, cartItems,}) => {
                     </div>
 
 
-                    <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={product.stock === 0} onClick={addToCart} >Add to Cart</button>
+                    <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={product.stock === 0} onClick={addToCart}>Add to Cart</button>
                     <hr />
 
                     <p>Status: <span id="stock_status" className={product.stock > 0 ? 'greenColor' : 'redColor'} >{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</span></p>
@@ -164,14 +185,14 @@ const ProductDetails = ({ addItemToCart, cartItems,}) => {
                     <p>{product.description}</p>
                     <hr />
                     <p id="product_seller mb-3">Sold by: <strong>{product.seller}</strong></p>
-                    <div className="alert alert-danger mt-5" type='alert'>Login to post your review.</div>
-                    <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal"  >
+                    {/* <div className="alert alert-danger mt-5" type='alert'>Login to post your review.</div> */}
+                    {/* <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal"  >
                         Submit Your Review
-                    </button>
-                    {/* {user ? <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal" onClick={setUserRatings} >
+                    </button> */}
+                    {user ? <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal" onClick={setUserRatings} >
                         Submit Your Review
                     </button> :
-                        <div className="alert alert-danger mt-5" type='alert'>Login to post your review.</div>} */}
+                        <div className="alert alert-danger mt-5" type='alert'>Login to post your review.</div>}
                     <div className="row mt-2 mb-5">
                         <div className="rating w-50">
 
@@ -204,7 +225,7 @@ const ProductDetails = ({ addItemToCart, cartItems,}) => {
                                             </textarea>
 
 
-                                            <button className="btn my-3 float-right review-btn px-4 text-white" data-dismiss="modal" aria-label="Close"  >Submit</button>
+                                            <button className="btn my-3 float-right review-btn px-4 text-white" data-dismiss="modal" aria-label="Close" onClick={reviewHandler} >Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -213,11 +234,11 @@ const ProductDetails = ({ addItemToCart, cartItems,}) => {
                         </div>
                     </div>
                 </div>
-                {/* {product.reviews && product.reviews.length > 0 && (
+                {product.reviews && product.reviews.length > 0 && (
 
                     <ListReviews reviews={product.reviews} />
 
-                )} */}
+                )}
             </div>
 
 
